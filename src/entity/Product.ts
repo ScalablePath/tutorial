@@ -1,10 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 import { Category } from './Category'
 import { Subcategory } from './Subcategory'
 import { Uom } from './Uom'
-import { SupplierProduct } from './SupplierProduct'
-import { WarehouseStock } from './WarehouseStock'
-import { InventoryTransaction } from './InventoryTransaction'
 
 @Entity()
 export class Product {
@@ -28,17 +25,4 @@ export class Product {
   // Product has one UOM
   @ManyToOne(() => Uom, uom => uom.products, { nullable: false })
   uom: Uom
-
-  // Product can be associated with many Suppliers
-  @OneToMany(() => SupplierProduct, supplierProduct => supplierProduct.product)
-  supplierProducts: SupplierProduct[];
-
-  // Product can be associated with many WarehouseStocks
-  @OneToMany(() => WarehouseStock, warehouseStock => warehouseStock.product)
-  warehouseStocks: WarehouseStock[];
-
-  // Product can be associated with many InventoryTransactions
-  @OneToMany(() => InventoryTransaction, inventoryTransactions => inventoryTransactions.product)
-  inventoryTransactions: InventoryTransaction[];
-
 }
