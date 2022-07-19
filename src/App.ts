@@ -6,18 +6,27 @@ import { Subcategory } from './entity/Subcategory'
 import { Supplier } from './entity/Supplier'
 import { Uom } from './entity/Uom'
 import { Warehouse } from './entity/Warehouse'
+import postgraphile from "postgraphile"
+
+
+const pgUser = 'pedromanfroi'
 
 /**
  * This is our main entry point of our Express server.
  * All the routes in our API are going to be here.
- **/ 
+ **/
 const App = () => {
   const app = express()
   app.use(express.json())
+  app.use(postgraphile(`postgresql://${pgUser}@localhost/catalog_db`, 'public', {
+    watchPg: true,
+    graphiql: true,
+    enhanceGraphiql: true,
+  }))
 
   app.get('/api/v1/hello', async (req, res, next) => {
     res.send('success')
-  })  
+  })
 
   app.post('/api/v1/test/data', async (req, res, next) => {
     // UOM
@@ -66,7 +75,7 @@ const App = () => {
     p2.sku = 'ZYX987'
     p2.subcategory = coat
     p2.uom = each
-    
+
     // Note: this product intentionally does not have a subcategory
     // (it's configured to be nullable: true).
     const p3 = new Product()
@@ -77,8 +86,8 @@ const App = () => {
     await AppDataSource.manager.save([p1, p2, p3])
 
     res.send('data seeding completed!')
-  })  
-  
+  })
+
   return app
 }
 
