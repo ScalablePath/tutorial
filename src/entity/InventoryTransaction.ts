@@ -3,8 +3,8 @@ import { Warehouse } from './Warehouse'
 import { Product } from './Product'
 
 enum TransactionType {
-  RECEIVE,
-  WITHDRAW
+  RECEIVE = 'receive',
+  WITHDRAW = 'withdraw'
 }
 
 @Entity()
@@ -19,7 +19,7 @@ export class InventoryTransaction {
   @Column()
   quantity: number
 
-  @Column()
+  @Column({ type: "enum", enum: TransactionType })
   type: TransactionType
 
   // InventoryTransaction has one Warehouse
