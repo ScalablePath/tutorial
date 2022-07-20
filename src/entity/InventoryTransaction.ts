@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 import { Warehouse } from './Warehouse'
 import { Product } from './Product'
 
-enum TransactionType {
+export enum TransactionType {
   RECEIVE = 'receive',
   WITHDRAW = 'withdraw'
 }

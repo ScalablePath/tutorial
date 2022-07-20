@@ -683,6 +683,15 @@ graphile-utils@^4.12.2:
     graphql ">=0.9 <0.14 || ^14.0.2 || ^15.4.0"
     tslib "^2.0.1"
 
+graphile-utils@^4.12.3:
+  version "4.12.3"
+  resolved "https://registry.yarnpkg.com/graphile-utils/-/graphile-utils-4.12.3.tgz#993f921804073fa68fa61fee7ac2b8274b7b721f"
+  integrity sha512-Kls1TNZnPAZ3iLphTTagB+xM+EP+ry33o+4s1vEkl0JE1c0B8ztVTfs3fUl04vyQ2q1K24QTwLYrJ4LN8+Xbuw==
+  dependencies:
+    debug "^4.1.1"
+    graphql ">=0.9 <0.14 || ^14.0.2 || ^15.4.0"
+    tslib "^2.0.1"
+
 graphql-parse-resolve-info@4.12.0:
   version "4.12.0"
   resolved "https://registry.npmjs.org/graphql-parse-resolve-info/-/graphql-parse-resolve-info-4.12.0.tgz"

@@ -7,7 +7,47 @@ import { Supplier } from './entity/Supplier'
 import { Uom } from './entity/Uom'
 import { Warehouse } from './entity/Warehouse'
 import postgraphile from "postgraphile"
+import { makeExtendSchemaPlugin, gql } from "graphile-utils"
+import { registerTransaction } from './service/inventory'
 
+
+const RegisterTransactionPlugin = makeExtendSchemaPlugin(_build => {
+  return {
+    typeDefs: gql`
+      input RegisterTransactionInput {
+        type: InventoryTransactionTypeEnum!
+        productId: Int!
+        warehouseId: Int!
+        quantity: Int!
+      }
+
+      type RegisterTransactionPayload {
+        transactionId: Int,
+        productId: Int,
+        warehouseId: Int,
+        updatedQuantity: Int,
+      }
+
+      extend type Mutation {
+        registerTransaction(input: RegisterTransactionInput!): RegisterTransactionPayload
+      }      
+    `,
+    resolvers: {
+      Mutation: {
+        registerTransaction: async (_query, args, _context, _resolveInfo) => {
+          try {
+            const { type, productId, warehouseId, quantity } = args.input
+            const inventoryTransaction = await registerTransaction(type, productId, warehouseId, quantity)
+            return { ...inventoryTransaction }
+          } catch (e) {
+            console.error('Error registering transaction', e)
+            throw e
+          }
+        }
+      }
+    },
+  };
+});
 
 const pgUser = 'pedromanfroi'
 
@@ -22,6 +62,7 @@ const App = () => {
     watchPg: true,
     graphiql: true,
     enhanceGraphiql: true,
+    appendPlugins: [RegisterTransactionPlugin],
   }))
 
   app.get('/api/v1/hello', async (req, res, next) => {
