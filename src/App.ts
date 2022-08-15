@@ -9,6 +9,7 @@ import { Warehouse } from './entity/Warehouse'
 import postgraphile from "postgraphile"
 import { makeExtendSchemaPlugin, gql } from "graphile-utils"
 import { registerTransaction } from './service/inventory'
+import cors from 'cors'
 
 
 const RegisterTransactionPlugin = makeExtendSchemaPlugin(_build => {
@@ -58,6 +59,7 @@ const pgUser = 'pedromanfroi'
 const App = () => {
   const app = express()
   app.use(express.json())
+  app.use(cors()) // This needs to be added
   app.use(postgraphile(`postgresql://${pgUser}@localhost/catalog_db`, 'public', {
     watchPg: true,
     graphiql: true,
